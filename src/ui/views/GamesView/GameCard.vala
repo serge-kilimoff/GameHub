@@ -37,7 +37,8 @@ namespace GameHub.UI.Views.GamesView
 		private Overlay content;
 		private AutoSizeImage image;
 		private Label label;
-		private Label status_label;
+        private Label status_label;
+		private Label playtime_label;
 
 		private Box src_icons;
 		private Image src_icon;
@@ -117,10 +118,20 @@ namespace GameHub.UI.Views.GamesView
 			status_label.justify = Justification.CENTER;
 			status_label.lines = 1;
 
+            playtime_label = new Label("");
+            playtime_label.get_style_context().add_class("status");
+            playtime_label.xpad = 8;
+            playtime_label.ypad = 0;
+            playtime_label.hexpand = true;
+            playtime_label.justify = Justification.CENTER;
+            playtime_label.lines = 1;
+
+
 			var info = new Box(Orientation.VERTICAL, 0);
 			info.get_style_context().add_class("info");
 			info.add(label);
-			info.add(status_label);
+            info.add(status_label);
+			info.add(playtime_label);
 			info.valign = Align.END;
 
 			actions = new Box(Orientation.VERTICAL, 0);
@@ -193,6 +204,9 @@ namespace GameHub.UI.Views.GamesView
 
 			Idle.add(() => {
 				label.label = game.name;
+                if (game.playtime > 0) {
+                    playtime_label.label = game.playtime.to_string() + "m";
+                }
 				src_icon.icon_name = game.source.icon;
 				return Source.REMOVE;
 			});
@@ -204,6 +218,9 @@ namespace GameHub.UI.Views.GamesView
 			game.status_change.connect(s => {
 				Idle.add(() => {
 					label.label = game.name;
+                    if (game.playtime > 0) {
+                        playtime_label.label = game.playtime.to_string() + "m";
+                    }
 					status_label.label = s.description;
 					favorite_icon.visible = game.has_tag(Tables.Tags.BUILTIN_FAVORITES);
 					switch(s.state)

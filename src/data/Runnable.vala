@@ -485,9 +485,17 @@ namespace GameHub.Data
 						switch(type)
 						{
 							case InstallerType.EXECUTABLE:
-								cmd = {path, "--", "--i-agree-to-all-licenses",
-										"--noreadme", "--nooptions", "--noprompt",
-										"--destination", runnable.install_dir.get_path().replace("'", "\\'")}; // probably mojosetup
+								cmd = {
+                                    "/home/serge/Games/run_install.py",
+                                    path, "--",
+                                    "--i-agree-to-all-licenses",
+									"--noreadme",
+                                    "--nooptions",
+                                    "--noprompt",
+         //                            "--notermspawn",
+         //                            "--ui=stdio",
+									"--destination", runnable.install_dir.get_path().replace("'", "\\'")
+                                }; // probably mojosetup
 								break;
 
 							case InstallerType.ARCHIVE:

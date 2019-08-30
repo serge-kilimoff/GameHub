@@ -130,10 +130,10 @@ namespace GameHub.Data
 					}
 				}
 
-				last_launch = get_real_time() / 1000000;
+				last_launch = get_monotonic_time();
 				save();
 				yield Utils.run_thread(cmd, executable.get_parent().get_path(), null, true);
-				playtime_tracked += ((get_real_time() / 1000000) - last_launch) / 60;
+                playtime_tracked += ((get_monotonic_time() - last_launch) / 1000000) / 60;
 				save();
 
 				RunnableIsLaunched = is_running = false;
